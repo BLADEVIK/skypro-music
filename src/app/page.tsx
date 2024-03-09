@@ -1,6 +1,7 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 
+
 export default function Home() {
   return (
     <>
@@ -79,7 +80,7 @@ export default function Home() {
                       <div className="track__title">
                         <div className="track__title-image">
                           <svg className="track__title-svg">
-                            <use xlinkHref="img/icon/sprite.svg#icon-note" />
+                            <use href="img/icon/sprite.svg#icon-note" />
                           </svg>
                         </div>
                         <div className="track__title-text">
@@ -648,28 +649,34 @@ export default function Home() {
                 <div className="sidebar__list">
                   <div className="sidebar__item">
                     <a className="sidebar__link" href="#">
-                      <img
+                      <Image
                         className="sidebar__img"
-                        src="img/playlist01.png"
+                        src="/img/playlist01.png"
                         alt="day's playlist"
+                        width={250}
+                        height={170}
                       />
                     </a>
                   </div>
                   <div className="sidebar__item">
                     <a className="sidebar__link" href="#">
-                      <img
+                      <Image
                         className="sidebar__img"
-                        src="img/playlist02.png"
+                        src="/img/playlist02.png"
                         alt="day's playlist"
+                        width={250}
+                        height={170}
                       />
                     </a>
                   </div>
                   <div className="sidebar__item">
                     <a className="sidebar__link" href="#">
-                      <img
+                      <Image
                         className="sidebar__img"
-                        src="img/playlist03.png"
+                        src="/img/playlist03.png"
                         alt="day's playlist"
+                        width={250}
+                        height={170}
                       />
                     </a>
                   </div>
