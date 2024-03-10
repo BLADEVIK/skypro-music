@@ -9,8 +9,8 @@ export default function Home() {
       <div className={styles.wrapper}>
         <div className={styles.container}>
           <main className={styles.main}>
-            <nav className={classNames(styles.main__nav, styles.nav)}>
-              <div className={classNames(styles.nav__logo, styles.logo)}>
+            <nav className={styles.main__nav}>
+              <div className={styles.nav__logo}>
                 <img className={styles.logo__image} src="img/logo.png" />
               </div>
               <div className={classNames(styles.nav__burger, styles.burger)}>
