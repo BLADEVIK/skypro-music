@@ -4,10 +4,11 @@ import { trackType } from "../../types";
 
 type trackTypeProps = {
   item: trackType;
+  onClick:()=>void;
 };
-export default function PlayListItem({ item }: trackTypeProps) {
+export default function PlayListItem({ item,onClick }: trackTypeProps) {
   return (
-    <div className={styles.playlistItem}>
+    <div onClick={onClick} className={styles.playlistItem}>
       <div className={classNames(styles.playlistTrack, styles.track)}>
         <div className={styles.trackTitle}>
           <div className={styles.trackTitleImage}>
