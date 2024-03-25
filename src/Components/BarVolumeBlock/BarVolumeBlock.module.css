@@ -32,15 +32,21 @@
 
 .volumeSvg {
   width: 13px;
-  height: 18px;
+  height: 45px;
   fill: transparent;
 }
 
 .volumeProgress {
   width: 109px;
+  cursor: pointer;
+  border: 1px;
 }
 
 .volumeProgressLine {
   width: 109px;
   cursor: pointer;
+}
+._btn{
+  width:109px;
+  height:1px;
 }

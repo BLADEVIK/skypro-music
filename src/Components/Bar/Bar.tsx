@@ -6,6 +6,7 @@ import { trackType } from "../../types";
 import { useState } from "react";
 import { useRef } from "react";
 import ProgressBar from "@components/ProgressBar/ProgressBar";
+import { formatTime } from './../../lib/formatTime';
 type barProps = {
   currentTrack: trackType | null;
 };
@@ -16,9 +17,8 @@ export default function Bar({ currentTrack }: barProps) {
   const [currentTime, setCurrentTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const audioRef = useRef<HTMLAudioElement>(null);
-
   const duration = audioRef.current?.duration || 0;
-
+  const [isLoop, setIsLoop] = useState(false);
   const togglePlay = () => {
     if (audioRef.current) {
       if (isPlaying) {
@@ -34,7 +34,13 @@ export default function Bar({ currentTrack }: barProps) {
       audioRef.current.currentTime = Number(e.target.value);
     }
   }
-
+  const handleLoop = () => {
+    if (audioRef.current) {
+      audioRef.current.loop = !isLoop;
+      setIsLoop(!isLoop);
+    }
+  };
+  
   return (
     <div className={styles.bar}>
       <audio
@@ -44,6 +50,7 @@ export default function Bar({ currentTrack }: barProps) {
         onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
       />
       <div className={styles.barContent}>
+        <div>{formatTime(currentTime)}/{formatTime(duration)}</div>
         <ProgressBar
           max={duration}
           value={currentTime}
@@ -82,13 +89,22 @@ export default function Bar({ currentTrack }: barProps) {
                 </svg>
               </div>
               <div
+                onClick={handleLoop}
                 className={classNames(styles.playerBtnRepeat, styles._btnIcon)}
               >
-                <svg className={styles.playerBtnRepeatSvg}>
-                  <use href="/img/icon/sprite.svg#icon-repeat"></use>
-                </svg>
+                {" "}
+                {!isLoop ? (
+                  <svg className={styles.playerBtnRepeatSvg}>
+                    <use href="/img/icon/sprite.svg#icon-repeat"></use>
+                  </svg>
+                ) : (
+                  <svg className={styles.playerBtnRepeatSvgActive}>
+                    <use href="/img/icon/sprite.svg#icon-repeat"></use>
+                  </svg>
+                )}
               </div>
               <div
+                onClick={() => alert("Еще не реализовано!")}
                 className={classNames(styles.playerbtnshuffle, styles._btnicon)}
               >
                 <svg className={styles.playerBtnShuffleSvg}>
