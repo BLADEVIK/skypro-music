@@ -1,6 +1,7 @@
 import styles from "@components/PlayListItem/PlayListItem.module.css";
 import classNames from "classnames";
 import { trackType } from "../../types";
+import { formatTime } from './../../lib/formatTime';
 
 type trackTypeProps = {
   item: trackType;
@@ -37,7 +38,7 @@ export default function PlayListItem({ item,onClick }: trackTypeProps) {
             <use href="/img/icon/sprite.svg#icon-like"></use>
           </svg>
           <span className={styles.trackTimeText}>
-            {item.duration_in_seconds}
+            {formatTime(item.duration_in_seconds)}
           </span>
         </div>
       </div>
