@@ -14,7 +14,7 @@ export default function Bar({ currentTrack }: barProps) {
     return;
   }
   const [currentTime, setCurrentTime] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const duration = audioRef.current?.duration || 0;
@@ -136,7 +136,7 @@ export default function Bar({ currentTrack }: barProps) {
               </div>
             </div>
           </div>
-          <BarVolumeBlock />
+          <BarVolumeBlock audioRef={audioRef} />
         </div>
       </div>
     </div>

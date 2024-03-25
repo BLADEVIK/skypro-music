@@ -118,6 +118,7 @@
     font-size: 16px;
     line-height: 24px;
     color: #ffffff;
+    cursor: pointer;
   }
   
   .trackTitleSpan {
@@ -136,6 +137,7 @@
     -webkit-box-pack: start;
     -ms-flex-pack: start;
     justify-content: flex-start;
+    cursor: pointer;
   }
   
   .trackAuthorLink {
@@ -157,6 +159,7 @@
     font-size: 16px;
     line-height: 24px;
     color: #696969;
+    cursor: pointer;
   }
   
   .trackTimeSvg {

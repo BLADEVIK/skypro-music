@@ -17,20 +17,20 @@ export default function PlayListItem({ item,onClick }: trackTypeProps) {
             </svg>
           </div>
           <div className={styles.trackTitleText}>
-            <a className={styles.trackTitleLink} href="http://">
+            <span className={styles.trackTitleLink}>
               {item.name} <span className={styles.trackTitleSpan}></span>
-            </a>
+            </span>
           </div>
         </div>
         <div className={styles.trackAuthor}>
-          <a className={styles.trackAuthorLink} href="http://">
+          <span className={styles.trackAuthorLink}>
             {item.author}
-          </a>
+          </span>
         </div>
         <div className={styles.trackAlbum}>
-          <a className={styles.trackAlbumLink} href="http://">
+          <span className={styles.trackAlbumLink}>
             {item.album}
-          </a>
+          </span>
         </div>
         <div className={styles.trackTime}>
           <svg className={styles.trackTimeSvg}>
