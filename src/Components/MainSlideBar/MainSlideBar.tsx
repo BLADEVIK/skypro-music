@@ -5,7 +5,7 @@ export default function MainSlideBar() {
   return (
     <div className={classNames(styles.mainSidebar, styles.sidebar)}>
       <div className={styles.sidebarPersonal}>
-        <p className={styles.sidebarPersonalName}>Sergey.Ivanov</p>
+        <p className={styles.sidebarPersonalName}>BL@DE</p>
         <div className={styles.sidebarIcon}>
           <svg>
             <use href="/img/icon/sprite.svg#logout"></use>
