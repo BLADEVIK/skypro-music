@@ -1,13 +1,13 @@
 import styles from "@components/PlayListItem/PlayListItem.module.css";
 import classNames from "classnames";
 import { trackType } from "../../types";
-import { formatTime } from './../../lib/formatTime';
+import { formatTime } from "@lib/formatTime";
 
 type trackTypeProps = {
   item: trackType;
-  onClick:()=>void;
+  onClick: () => void;
 };
-export default function PlayListItem({ item,onClick }: trackTypeProps) {
+export default function PlayListItem({ item, onClick }: trackTypeProps) {
   return (
     <div onClick={onClick} className={styles.playlistItem}>
       <div className={classNames(styles.playlistTrack, styles.track)}>
@@ -24,14 +24,10 @@ export default function PlayListItem({ item,onClick }: trackTypeProps) {
           </div>
         </div>
         <div className={styles.trackAuthor}>
-          <span className={styles.trackAuthorLink}>
-            {item.author}
-          </span>
+          <span className={styles.trackAuthorLink}>{item.author}</span>
         </div>
         <div className={styles.trackAlbum}>
-          <span className={styles.trackAlbumLink}>
-            {item.album}
-          </span>
+          <span className={styles.trackAlbumLink}>{item.album}</span>
         </div>
         <div className={styles.trackTime}>
           <svg className={styles.trackTimeSvg}>
