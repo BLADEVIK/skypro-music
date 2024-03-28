@@ -2,14 +2,26 @@ import styles from "@components/PlayListItem/PlayListItem.module.css";
 import classNames from "classnames";
 import { trackType } from "../../types";
 import { formatTime } from "@lib/formatTime";
+import { useAppDispatch } from "../../hooks";
+import { setCurrentTrack } from "../../store/features/playlistSlice";
 
 type trackTypeProps = {
   item: trackType;
   onClick: () => void;
+  playlist: trackType[];
 };
-export default function PlayListItem({ item, onClick }: trackTypeProps) {
+export default function PlayListItem({
+  item,
+  onClick,
+  playlist,
+}: trackTypeProps) {
+  const dispatch = useAppDispatch();
+  function handleClick() {
+    onClick();
+    dispatch(setCurrentTrack({ currentTrack: item, playlist }));
+  }
   return (
-    <div onClick={onClick} className={styles.playlistItem}>
+    <div onClick={handleClick} className={styles.playlistItem}>
       <div className={classNames(styles.playlistTrack, styles.track)}>
         <div className={styles.trackTitle}>
           <div className={styles.trackTitleImage}>
