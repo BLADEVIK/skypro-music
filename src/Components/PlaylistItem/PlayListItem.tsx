@@ -7,20 +7,19 @@ import { setCurrentTrack } from "../../store/features/playlistSlice";
 
 type trackTypeProps = {
   item: trackType;
-  onClick: () => void;
+
   playlist: trackType[];
   isCurrentTrack: boolean;
 };
 export default function PlayListItem({
   item,
-  onClick,
+
   playlist,
   isCurrentTrack,
 }: trackTypeProps) {
-  // const { isPlay } = useAppSelector((state) => state.playlist);
+  const { isPlaying } = useAppSelector((state) => state.playlist);
   const dispatch = useAppDispatch();
   function handleClick() {
-    onClick();
     dispatch(setCurrentTrack({ currentTrack: item, playlist }));
   }
   return (
@@ -30,10 +29,9 @@ export default function PlayListItem({
           <div className={styles.trackTitleImage}>
             {isCurrentTrack ? (
               <div
-                className={classNames(
-                  styles.trackImagePlaying,
-                  styles.trackAnimation 
-                )}
+                className={classNames(styles.trackImagePlaying, {
+                  [styles.trackAnimation]: isPlaying,
+                })}
               ></div>
             ) : (
               <svg className={styles.trackTitleSvg}>

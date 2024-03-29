@@ -3,7 +3,7 @@ import classNames from "classnames";
 import styles from "./Bar.module.css";
 import BarVolumeBlock from "@components/BarVolumeBlock/BarVolumeBlock";
 import { trackType } from "../../types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRef } from "react";
 import ProgressBar from "@components/ProgressBar/ProgressBar";
 import { formatTime } from "./../../lib/formatTime";
@@ -11,32 +11,42 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import {
   nextTrack,
   prevTrack,
-  setCurrentTrack,
+  setIsPlaying,
+  toggleShuffled,
 } from "../../store/features/playlistSlice";
-type barProps = {
-  currentTrack: trackType | null;
-};
+
 export default function Bar() {
-  const currentTrack = useAppSelector((store) => store.playlist.currentTrack);
+  const { currentTrack, isPlaying, isShuffled } = useAppSelector(
+    (store) => store.playlist
+  );
   const dispatch = useAppDispatch();
   if (!currentTrack) {
     return;
   }
   const [currentTime, setCurrentTime] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
+
   const audioRef = useRef<HTMLAudioElement>(null);
   const duration = audioRef.current?.duration || 0;
   const [isLoop, setIsLoop] = useState(false);
   const togglePlay = () => {
     if (audioRef.current) {
       if (isPlaying) {
+        dispatch(setIsPlaying(false));
         audioRef.current.pause();
       } else {
+        dispatch(setIsPlaying(true));
         audioRef.current.play();
       }
-      setIsPlaying(!isPlaying);
     }
   };
+  useEffect(() => {
+    dispatch(setIsPlaying(true));
+  }, [currentTrack, dispatch]);
+  useEffect(() => {
+    if (currentTime === duration && currentTime > 0) {
+      dispatch(nextTrack());
+    }
+  }, [currentTime]);
   function changeProgressBar(e: React.ChangeEvent<HTMLInputElement>) {
     if (audioRef.current) {
       audioRef.current.currentTime = Number(e.target.value);
@@ -114,12 +124,19 @@ export default function Bar() {
                 )}
               </div>
               <div
-                onClick={() => alert("Еще не реализовано!!!")}
+                onClick={() => dispatch(toggleShuffled())}
                 className={classNames(styles.playerbtnshuffle, styles._btnicon)}
               >
-                <svg className={styles.playerBtnShuffleSvg}>
-                  <use href="/img/icon/sprite.svg#icon-shuffle"></use>
-                </svg>
+                {" "}
+                {!isShuffled ? (
+                  <svg className={styles.playerBtnShuffleSvg}>
+                    <use href="/img/icon/sprite.svg#icon-shuffle"></use>
+                  </svg>
+                ) : (
+                  <svg className={styles.playerBtnShuffleSvgActive}>
+                    <use href="/img/icon/sprite.svg#icon-shuffle"></use>
+                  </svg>
+                )}
               </div>
             </div>
 

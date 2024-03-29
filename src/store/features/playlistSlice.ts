@@ -4,7 +4,7 @@ import { trackType } from "../../types";
 type PlaylistStateType = {
   playlist: trackType[];
   currentTrack: null | trackType;
-  isPlay: boolean;
+  isPlaying: boolean;
   isShuffled: boolean;
   shuffledPlaylist: trackType[];
 };
@@ -15,7 +15,7 @@ type setCurrentTrackType = {
 const initialState: PlaylistStateType = {
   playlist: [],
   currentTrack: null,
-  isPlay: false,
+  isPlaying: false,
   isShuffled: false,
   shuffledPlaylist: [],
 };
@@ -55,8 +55,15 @@ const playlistSlice = createSlice({
         state.currentTrack = newTrack;
       }
     },
+    toggleShuffled: (state) => {
+      state.isShuffled = !state.isShuffled;
+    },
+    setIsPlaying: (state, action: PayloadAction<boolean>) => {
+      state.isPlaying = action.payload;
+    },
   },
 });
 
-export const { setCurrentTrack, nextTrack, prevTrack } = playlistSlice.actions;
+export const { setCurrentTrack, nextTrack, prevTrack, toggleShuffled,setIsPlaying } =
+  playlistSlice.actions;
 export const playlistReducer = playlistSlice.reducer;

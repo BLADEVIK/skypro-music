@@ -147,14 +147,14 @@
     cursor: pointer;
   }
   /* Написан активный режим для случайного проигрывания песен */
-  /* .playerBtnShuffleSvgActive {
+   .playerBtnShuffleSvgActive {
     width: 19px;
     height: 20px;
     fill: transparent;
-    stroke: #eaea0f;
+    stroke: #a513df;
     margin-top: 5px;
     cursor: pointer;
-  } */
+  } 
   
   .playerTrackPlay {
     display: -webkit-box;
