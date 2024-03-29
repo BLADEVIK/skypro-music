@@ -24,7 +24,7 @@ export default function ContentPlaylist({
   // console.log(tracks);
   return (
     <div className={classNames(styles.contentPlaylist, styles.playlist)}>
-      <div>{currentTrack?.name}</div>
+      {/* <div>{currentTrack?.name}</div> */}
       {tracks?.map((item, index) => (
         <PlayListItem
           onClick={() => {
@@ -33,6 +33,7 @@ export default function ContentPlaylist({
           key={index}
           item={item}
           playlist={tracks}
+          isCurrentTrack={item.id=== currentTrack?.id }
         />
       ))}
     </div>

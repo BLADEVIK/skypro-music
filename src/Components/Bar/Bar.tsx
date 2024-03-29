@@ -18,7 +18,6 @@ type barProps = {
 };
 export default function Bar() {
   const currentTrack = useAppSelector((store) => store.playlist.currentTrack);
-  // const isShuffled = useAppSelector((store) => store.playlist.isShuffled);
   const dispatch = useAppDispatch();
   if (!currentTrack) {
     return;
@@ -115,7 +114,7 @@ export default function Bar() {
                 )}
               </div>
               <div
-                // onClick={() => dispatch(setCurrentTrack(!isShuffled))}
+                onClick={() => alert("Еще не реализовано!!!")}
                 className={classNames(styles.playerbtnshuffle, styles._btnicon)}
               >
                 <svg className={styles.playerBtnShuffleSvg}>

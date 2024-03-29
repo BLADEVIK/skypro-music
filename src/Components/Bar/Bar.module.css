@@ -308,4 +308,10 @@
   .volumeProgressLine {
     width: 109px;
   }
-  
+  .trackImagePlaying {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    background: rgb(142, 11, 218);
+  }

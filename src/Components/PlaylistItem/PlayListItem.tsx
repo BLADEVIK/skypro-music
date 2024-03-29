@@ -2,19 +2,22 @@ import styles from "@components/PlayListItem/PlayListItem.module.css";
 import classNames from "classnames";
 import { trackType } from "../../types";
 import { formatTime } from "@lib/formatTime";
-import { useAppDispatch } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { setCurrentTrack } from "../../store/features/playlistSlice";
 
 type trackTypeProps = {
   item: trackType;
   onClick: () => void;
   playlist: trackType[];
+  isCurrentTrack: boolean;
 };
 export default function PlayListItem({
   item,
   onClick,
   playlist,
+  isCurrentTrack,
 }: trackTypeProps) {
+  // const { isPlay } = useAppSelector((state) => state.playlist);
   const dispatch = useAppDispatch();
   function handleClick() {
     onClick();
@@ -25,9 +28,18 @@ export default function PlayListItem({
       <div className={classNames(styles.playlistTrack, styles.track)}>
         <div className={styles.trackTitle}>
           <div className={styles.trackTitleImage}>
-            <svg className={styles.trackTitleSvg}>
-              <use href="/img/icon/sprite.svg#icon-note"></use>
-            </svg>
+            {isCurrentTrack ? (
+              <div
+                className={classNames(
+                  styles.trackImagePlaying,
+                  styles.trackAnimation 
+                )}
+              ></div>
+            ) : (
+              <svg className={styles.trackTitleSvg}>
+                <use href="/img/icon/sprite.svg#icon-note"></use>
+              </svg>
+            )}
           </div>
           <div className={styles.trackTitleText}>
             <span className={styles.trackTitleLink}>
