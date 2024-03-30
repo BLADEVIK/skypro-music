@@ -4,8 +4,7 @@ import CenterBlock from "@components/CenterBlock/CenterBlock";
 import MainSlideBar from "@components/MainSlideBar/MainSlideBar";
 import Nav from "@components/Nav/Nav";
 import styles from "@components/Main/Main.module.css";
-import { useState } from "react";
-import { trackType } from "../../types";
+
 import { useAppSelector } from "../../hooks";
 export default function Main() {
   const { currentTrack } = useAppSelector((store) => store.playlist);
@@ -13,7 +12,7 @@ export default function Main() {
     <>
       <main className={styles.main}>
         <Nav />
-        <CenterBlock  />
+        <CenterBlock />
         <MainSlideBar />
       </main>
       {currentTrack ? <Bar /> : ""}

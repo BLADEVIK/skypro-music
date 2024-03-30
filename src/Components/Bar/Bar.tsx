@@ -2,7 +2,6 @@
 import classNames from "classnames";
 import styles from "./Bar.module.css";
 import BarVolumeBlock from "@components/BarVolumeBlock/BarVolumeBlock";
-import { trackType } from "../../types";
 import { useEffect, useState } from "react";
 import { useRef } from "react";
 import ProgressBar from "@components/ProgressBar/ProgressBar";
