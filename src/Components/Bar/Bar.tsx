@@ -8,10 +8,10 @@ import ProgressBar from "@components/ProgressBar/ProgressBar";
 import { formatTime } from "./../../lib/formatTime";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import {
-  nextTrack,
-  prevTrack,
+  setNextTrack,
+  setPrevTrack,
   setIsPlaying,
-  toggleShuffled,
+  setToggleShuffled,
 } from "../../store/features/playlistSlice";
 
 export default function Bar() {
@@ -43,7 +43,7 @@ export default function Bar() {
   }, [currentTrack, dispatch]);
   useEffect(() => {
     if (currentTime === duration && currentTime > 0) {
-      dispatch(nextTrack());
+      dispatch(setNextTrack());
     }
   }, [currentTime]);
   function changeProgressBar(e: React.ChangeEvent<HTMLInputElement>) {
@@ -80,7 +80,7 @@ export default function Bar() {
           <div className={classNames(styles.barPlayer, styles.player)}>
             <div className={styles.playerControls}>
               <div
-                onClick={() => dispatch(prevTrack())}
+                onClick={() => dispatch(setPrevTrack())}
                 className={styles.playerBtnPrev}
               >
                 <svg className={styles.playerBtnPrevSvg}>
@@ -100,7 +100,7 @@ export default function Bar() {
                 </svg>
               </div>
               <div
-                onClick={() => dispatch(nextTrack())}
+                onClick={() => dispatch(setNextTrack())}
                 className={styles.playerBtnNext}
               >
                 <svg className={styles.playerBtnNextSvg}>
@@ -123,7 +123,7 @@ export default function Bar() {
                 )}
               </div>
               <div
-                onClick={() => dispatch(toggleShuffled())}
+                onClick={() => dispatch(setToggleShuffled())}
                 className={classNames(styles.playerbtnshuffle, styles._btnicon)}
               >
                 {" "}

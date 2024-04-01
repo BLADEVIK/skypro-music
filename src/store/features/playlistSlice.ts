@@ -20,6 +20,19 @@ const initialState: PlaylistStateType = {
   shuffledPlaylist: [],
 };
 
+function changeTrack(direction: number) {
+  return (state: PlaylistStateType) => {
+    const currentTracks = state.isShuffled
+      ? state.shuffledPlaylist
+      : state.playlist;
+    let newIndex =
+      currentTracks.findIndex((item) => item.id === state.currentTrack?.id) +
+      direction;
+    newIndex = (newIndex + currentTracks.length) % currentTracks.length;
+    state.currentTrack = currentTracks[newIndex];
+    state.isPlaying = true;
+  };
+}
 const playlistSlice = createSlice({
   name: "playlist",
   initialState,
@@ -31,31 +44,10 @@ const playlistSlice = createSlice({
         () => 0.5 - Math.random()
       );
     },
-    nextTrack: (state) => {
-      const playlist = state.isShuffled
-        ? state.shuffledPlaylist
-        : state.playlist;
-      const currentTrackIndex = playlist.findIndex(
-        (track) => track.id === state.currentTrack?.id
-      );
-      const newTrack = playlist[currentTrackIndex + 1];
-      if (newTrack) {
-        state.currentTrack = newTrack;
-      }
-    },
-    prevTrack: (state) => {
-      const playlist = state.isShuffled
-        ? state.shuffledPlaylist
-        : state.playlist;
-      const currentTrackIndex = playlist.findIndex(
-        (track) => track.id === state.currentTrack?.id
-      );
-      const newTrack = playlist[currentTrackIndex - 1];
-      if (newTrack) {
-        state.currentTrack = newTrack;
-      }
-    },
-    toggleShuffled: (state) => {
+    setNextTrack: changeTrack(1),
+    setPrevTrack: changeTrack(-1),
+
+    setToggleShuffled: (state) => {
       state.isShuffled = !state.isShuffled;
     },
     setIsPlaying: (state, action: PayloadAction<boolean>) => {
@@ -64,6 +56,11 @@ const playlistSlice = createSlice({
   },
 });
 
-export const { setCurrentTrack, nextTrack, prevTrack, toggleShuffled,setIsPlaying } =
-  playlistSlice.actions;
+export const {
+  setCurrentTrack,
+  setNextTrack,
+  setPrevTrack,
+  setToggleShuffled,
+  setIsPlaying,
+} = playlistSlice.actions;
 export const playlistReducer = playlistSlice.reducer;
