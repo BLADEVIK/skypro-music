@@ -1,21 +1,43 @@
 import styles from "@components/PlayListItem/PlayListItem.module.css";
 import classNames from "classnames";
 import { trackType } from "../../types";
-import { formatTime } from './../../lib/formatTime';
+import { formatTime } from "@lib/formatTime";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { setCurrentTrack } from "../../store/features/playlistSlice";
 
 type trackTypeProps = {
   item: trackType;
-  onClick:()=>void;
+
+  playlist: trackType[];
+  isCurrentTrack: boolean;
 };
-export default function PlayListItem({ item,onClick }: trackTypeProps) {
+export default function PlayListItem({
+  item,
+
+  playlist,
+  isCurrentTrack,
+}: trackTypeProps) {
+  const { isPlaying } = useAppSelector((state) => state.playlist);
+  const dispatch = useAppDispatch();
+  function handleClick() {
+    dispatch(setCurrentTrack({ currentTrack: item, playlist }));
+  }
   return (
-    <div onClick={onClick} className={styles.playlistItem}>
+    <div onClick={handleClick} className={styles.playlistItem}>
       <div className={classNames(styles.playlistTrack, styles.track)}>
         <div className={styles.trackTitle}>
           <div className={styles.trackTitleImage}>
-            <svg className={styles.trackTitleSvg}>
-              <use href="/img/icon/sprite.svg#icon-note"></use>
-            </svg>
+            {isCurrentTrack ? (
+              <div
+                className={classNames(styles.trackImagePlaying, {
+                  [styles.trackAnimation]: isPlaying,
+                })}
+              ></div>
+            ) : (
+              <svg className={styles.trackTitleSvg}>
+                <use href="/img/icon/sprite.svg#icon-note"></use>
+              </svg>
+            )}
           </div>
           <div className={styles.trackTitleText}>
             <span className={styles.trackTitleLink}>
@@ -24,14 +46,10 @@ export default function PlayListItem({ item,onClick }: trackTypeProps) {
           </div>
         </div>
         <div className={styles.trackAuthor}>
-          <span className={styles.trackAuthorLink}>
-            {item.author}
-          </span>
+          <span className={styles.trackAuthorLink}>{item.author}</span>
         </div>
         <div className={styles.trackAlbum}>
-          <span className={styles.trackAlbumLink}>
-            {item.album}
-          </span>
+          <span className={styles.trackAlbumLink}>{item.album}</span>
         </div>
         <div className={styles.trackTime}>
           <svg className={styles.trackTimeSvg}>

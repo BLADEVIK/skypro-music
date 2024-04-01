@@ -3,10 +3,8 @@ import classNames from "classnames";
 import styles from "@components/CenterBlock/CenterBlock.module.css";
 import FilterBlock from "@components/FilterBlock/FilterBlock";
 import { trackType } from "../../types";
-type centerBlockProps={
-  setCurrentTrack: (item:trackType)=>void;
-}
-export default function CenterBlock({setCurrentTrack}:centerBlockProps) {
+
+export default function CenterBlock() {
   return (
     <div className={classNames(styles.mainCenterBlock, styles.centerBlock)}>
       <div className={classNames(styles.centerBlockSearch, styles.search)}>
@@ -44,7 +42,7 @@ export default function CenterBlock({setCurrentTrack}:centerBlockProps) {
             </svg>
           </div>
         </div>
-        <ContentPlaylist setCurrentTrack={setCurrentTrack} />
+        <ContentPlaylist  />
       </div>
     </div>
   );
