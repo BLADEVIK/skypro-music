@@ -13,7 +13,6 @@ type trackTypeProps = {
 };
 export default function PlayListItem({
   item,
-
   playlist,
   isCurrentTrack,
 }: trackTypeProps) {

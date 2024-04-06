@@ -3,8 +3,12 @@ import classNames from "classnames";
 import styles from "@components/CenterBlock/CenterBlock.module.css";
 import FilterBlock from "@components/FilterBlock/FilterBlock";
 import { trackType } from "../../types";
+import { useAppDispatch } from "../../hooks";
+import { setActiveFilter } from "../../store/features/playlistSlice";
 
 export default function CenterBlock() {
+  
+  const dispatch = useAppDispatch();
   return (
     <div className={classNames(styles.mainCenterBlock, styles.centerBlock)}>
       <div className={classNames(styles.centerBlockSearch, styles.search)}>
@@ -16,6 +20,16 @@ export default function CenterBlock() {
           type="search"
           placeholder="Поиск"
           name="search"
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            dispatch(
+              setActiveFilter({
+                author: [],
+                genre: [],
+                release_date: null,
+                searchValue: event.target.value,
+              })
+            )
+          }
         />
       </div>
       <h2 className={styles.centerBlockH2}>Треки</h2>
@@ -42,7 +56,7 @@ export default function CenterBlock() {
             </svg>
           </div>
         </div>
-        <ContentPlaylist  />
+        <ContentPlaylist />
       </div>
     </div>
   );

@@ -2,35 +2,34 @@
 import styles from "@components/FilterBlock/FilterBlock.module.css";
 import FilterItem from "@components/FilterItem/FilterItem";
 import classNames from "classnames";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import { useAppSelector } from "../../hooks";
+// const filterKey = {
+//   author: "",
+//   genre: "",
+// };
+// function getUniqValues<T>(array: T[], filterValue: string) {
+//   const uniqArray: T[] = [];
+//   array.map((item) => {
+//     if (!uniqArray.includes(item[filterValue as keyof typeof filterKey])) {
+//       uniqArray.push(item[filterValue]);
+//     }
+//   });
+// }
 export default function FilterBlock() {
   const [filterActive, setFilterActive] = useState("");
-  const authors = [
-    { id: 1, name: "John Doe" },
-    { id: 2, name: "Jane Doe" },
-    { id: 3, name: "John Smith" },
-    { id: 4, name: "Jane Smith" },
-    { id: 5, name: "John Johnson" },
-  ];
-  const years = [
-    { id: 1, name: "2010" },
-    { id: 2, name: "2011" },
-    { id: 3, name: "2012" },
-    { id: 4, name: "2013" },
-    { id: 5, name: "2014" },
-    { id: 6, name: "2015" },
-    { id: 7, name: "2016" },
-    { id: 8, name: "2017" },
-  ];
+  const [authors, setAuthors] = useState<string[]>([]);
+  const [genres, setGenre] = useState<string[]>([]);
+  const { playlistPage } = useAppSelector((state) => state.playlist);
+  useEffect(() => {
+    if (playlistPage.length > 0) {
+      setAuthors(Array.from(new Set(playlistPage.map((item) => item.author))));
+      setGenre(Array.from(new Set(playlistPage.map((item) => item.genre))));
+    }
+  }, [playlistPage]);
 
-  const genres = [
-    { id: 1, name: "Action" },
-    { id: 2, name: "Adventure" },
-    { id: 3, name: "Comedy" },
-    { id: 4, name: "Drama" },
-    { id: 5, name: "Fantasy" },
-  ];
+  const years = ["По умолчанию", "По убыванию", "По возрастанию"];
+
   function activeChangeFilter(nameFilter: string) {
     if (filterActive === nameFilter) {
       setFilterActive("");
@@ -60,7 +59,7 @@ export default function FilterBlock() {
         >
           исполнителю
         </div>
-        {filterActive === "author" ? <FilterItem filterList={authors} /> : "" }
+        {filterActive === "author" ? <FilterItem filterList={authors} /> : ""}
       </div>
       <div className={styles.wrapperFilters}>
         <div
@@ -81,7 +80,7 @@ export default function FilterBlock() {
         >
           году выпуска
         </div>
-       {filterActive === "year" ? <FilterItem filterList={years} /> : "" } 
+        {filterActive === "year" ? <FilterItem filterList={years} /> : ""}
       </div>
       <div className={styles.wrapperFilters}>
         <div
@@ -102,7 +101,7 @@ export default function FilterBlock() {
         >
           жанру
         </div>
-        {filterActive === "genre" ? <FilterItem filterList={genres} /> : "" }
+        {filterActive === "genre" ? <FilterItem filterList={genres} /> : ""}
       </div>
     </div>
   );
