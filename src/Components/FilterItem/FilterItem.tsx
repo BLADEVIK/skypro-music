@@ -5,13 +5,16 @@ type FilterList = {
 };
 type FilterItemProps = {
   filterList: string[];
+  onClick: (itemName: string, filterName: string) => void;
 };
-export default function FilterItem({ filterList }: FilterItemProps) {
+export default function FilterItem({ filterList, onClick }: FilterItemProps) {
   return (
     <div className={styles.wrapList}>
       <ul className={styles.list}>
         {filterList.map((item, index) => (
-          <li key={index}>{item}</li>
+          <li onClick={() => onClick(item,"authors")} key={index}>
+            {item}
+          </li>
         ))}
       </ul>
     </div>

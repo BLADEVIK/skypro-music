@@ -58,9 +58,16 @@ const playlistSlice = createSlice({
     setIsPlaying: (state, action: PayloadAction<boolean>) => {
       state.isPlaying = action.payload;
     },
-    setActiveFilter: (state, action: PayloadAction<activeFilters>) => {
-      // state.activeFilters[action.payload.nameFilter as keyof typeof state.activeFilters ] =
-      //   action.payload.valueFilter;
+    setActiveFilter: (
+      state,
+      action: PayloadAction<{
+        author?: Array<string>;
+        release_date?: null | string;
+        genre?: Array<string>;
+        searchValue?: string;
+      }>
+    ) => {
+      console.log(4);
       state.activeFilters = {
         author: action.payload.author || state.activeFilters.author,
         release_date: action.payload.release_date || null,

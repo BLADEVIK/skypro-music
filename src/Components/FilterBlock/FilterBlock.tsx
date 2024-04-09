@@ -3,24 +3,29 @@ import styles from "@components/FilterBlock/FilterBlock.module.css";
 import FilterItem from "@components/FilterItem/FilterItem";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
-import { useAppSelector } from "../../hooks";
-// const filterKey = {
-//   author: "",
-//   genre: "",
-// };
-// function getUniqValues<T>(array: T[], filterValue: string) {
-//   const uniqArray: T[] = [];
-//   array.map((item) => {
-//     if (!uniqArray.includes(item[filterValue as keyof typeof filterKey])) {
-//       uniqArray.push(item[filterValue]);
-//     }
-//   });
-// }
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { setActiveFilter } from "../../store/features/playlistSlice";
+
 export default function FilterBlock() {
   const [filterActive, setFilterActive] = useState("");
   const [authors, setAuthors] = useState<string[]>([]);
   const [genres, setGenre] = useState<string[]>([]);
   const { playlistPage } = useAppSelector((state) => state.playlist);
+  const dispatch = useAppDispatch();
+  const selectedAuthors = useAppSelector(
+    (state) => state.playlist.activeFilters.author
+  );
+  function handleFilterClick(itemName: string, filterName: string) {
+    if (filterName === "author") {
+      dispatch(
+        setActiveFilter({
+          author: selectedAuthors.includes(itemName)
+            ? selectedAuthors.filter((author) => author !== itemName)
+            : [...selectedAuthors, itemName],
+        })
+      );
+    }
+  }
   useEffect(() => {
     if (playlistPage.length > 0) {
       setAuthors(Array.from(new Set(playlistPage.map((item) => item.author))));
@@ -59,7 +64,7 @@ export default function FilterBlock() {
         >
           исполнителю
         </div>
-        {filterActive === "author" ? <FilterItem filterList={authors} /> : ""}
+        {filterActive === "author" ? <FilterItem onClick={handleFilterClick} filterList={authors} /> : ""}
       </div>
       <div className={styles.wrapperFilters}>
         <div
@@ -80,7 +85,7 @@ export default function FilterBlock() {
         >
           году выпуска
         </div>
-        {filterActive === "year" ? <FilterItem filterList={years} /> : ""}
+        {filterActive === "year" ? <FilterItem onClick={handleFilterClick} filterList={years} /> : ""}
       </div>
       <div className={styles.wrapperFilters}>
         <div
@@ -101,7 +106,7 @@ export default function FilterBlock() {
         >
           жанру
         </div>
-        {filterActive === "genre" ? <FilterItem filterList={genres} /> : ""}
+        {filterActive === "genre" ? <FilterItem onClick={handleFilterClick} filterList={genres} /> : ""}
       </div>
     </div>
   );
