@@ -29,6 +29,7 @@
   top: 10px;
   left: 0px;
   color: 0000;
+  cursor: pointer;
 }
 .list::-webkit-scrollbar {
   float: left;
@@ -44,4 +45,7 @@
 }
 .list:target {
   display: block;
+}
+.activeFilter {
+  color: rgb(150, 21, 229);
 }

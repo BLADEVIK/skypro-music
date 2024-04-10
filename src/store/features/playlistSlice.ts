@@ -1,12 +1,22 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { trackType } from "../../types";
+import { changeTrack } from "@lib/changeTrack";
 
-type PlaylistStateType = {
+export type PlaylistStateType = {
   playlist: trackType[];
   currentTrack: null | trackType;
   isPlaying: boolean;
   isShuffled: boolean;
   shuffledPlaylist: trackType[];
+  filteredPlaylist: trackType[];
+  activeFilters: activeFilters;
+  playlistPage: trackType[];
+};
+type activeFilters = {
+  author: Array<string>;
+  release_date: null | string;
+  genre: Array<string>;
+  searchValue: string;
 };
 type setCurrentTrackType = {
   currentTrack: trackType;
@@ -18,6 +28,14 @@ const initialState: PlaylistStateType = {
   isPlaying: false,
   isShuffled: false,
   shuffledPlaylist: [],
+  filteredPlaylist: [],
+  activeFilters: {
+    author: [],
+    release_date: null,
+    genre: [],
+    searchValue: "",
+  },
+  playlistPage: [],
 };
 
 const playlistSlice = createSlice({
@@ -31,39 +49,56 @@ const playlistSlice = createSlice({
         () => 0.5 - Math.random()
       );
     },
-    nextTrack: (state) => {
-      const playlist = state.isShuffled
-        ? state.shuffledPlaylist
-        : state.playlist;
-      const currentTrackIndex = playlist.findIndex(
-        (track) => track.id === state.currentTrack?.id
-      );
-      const newTrack = playlist[currentTrackIndex + 1];
-      if (newTrack) {
-        state.currentTrack = newTrack;
-      }
-    },
-    prevTrack: (state) => {
-      const playlist = state.isShuffled
-        ? state.shuffledPlaylist
-        : state.playlist;
-      const currentTrackIndex = playlist.findIndex(
-        (track) => track.id === state.currentTrack?.id
-      );
-      const newTrack = playlist[currentTrackIndex - 1];
-      if (newTrack) {
-        state.currentTrack = newTrack;
-      }
-    },
-    toggleShuffled: (state) => {
+    setNextTrack: changeTrack(1),
+    setPrevTrack: changeTrack(-1),
+
+    setToggleShuffled: (state) => {
       state.isShuffled = !state.isShuffled;
     },
     setIsPlaying: (state, action: PayloadAction<boolean>) => {
       state.isPlaying = action.payload;
     },
+    setActiveFilter: (
+      state,
+      action: PayloadAction<{
+        author?: Array<string>;
+        release_date?: null | string;
+        genre?: Array<string>;
+        searchValue?: string;
+      }>
+    ) => {
+      state.activeFilters = {
+        author: action.payload.author || state.activeFilters.author,
+        release_date: action.payload.release_date || null,
+        genre: action.payload.genre || state.activeFilters.genre,
+        searchValue:
+          action.payload.searchValue || state.activeFilters.searchValue,
+      };
+      state.filteredPlaylist = state.playlistPage.filter((track) => {
+        const isAuthors =
+          state.activeFilters.author.length > 0
+            ? state.activeFilters.author.includes(track.author)
+            : true;
+        const isGenres =
+          state.activeFilters.genre.length > 0
+            ? state.activeFilters.genre.includes(track.genre)
+            : true;
+        return isAuthors && isGenres;
+      });
+    },
+    setPlaylistPage: (state, action: PayloadAction<trackType[]>) => {
+      state.playlistPage = action.payload;
+    },
   },
 });
 
-export const { setCurrentTrack, nextTrack, prevTrack, toggleShuffled,setIsPlaying } =
-  playlistSlice.actions;
+export const {
+  setCurrentTrack,
+  setNextTrack,
+  setPrevTrack,
+  setToggleShuffled,
+  setIsPlaying,
+  setPlaylistPage,
+  setActiveFilter,
+} = playlistSlice.actions;
 export const playlistReducer = playlistSlice.reducer;
