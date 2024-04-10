@@ -15,8 +15,11 @@ export default function FilterBlock() {
   const selectedAuthors = useAppSelector(
     (state) => state.playlist.activeFilters.author
   );
+  const selectedGenres = useAppSelector(
+    (state) => state.playlist.activeFilters.genre
+  );
   function handleFilterClick(itemName: string, filterName: string) {
-    if (filterName === "author") {
+    if (filterName === "authors") {
       dispatch(
         setActiveFilter({
           author: selectedAuthors.includes(itemName)
@@ -25,6 +28,15 @@ export default function FilterBlock() {
         })
       );
     }
+    // if (filterName === "genres") {
+    //   dispatch(
+    //     setActiveFilter({
+    //       genre: selectedGenres.includes(itemName)
+    //         ? selectedGenres.filter((genre) => genre !== itemName)
+    //         : [...selectedGenres, itemName],
+    //     })
+    //   );
+    // }
   }
   useEffect(() => {
     if (playlistPage.length > 0) {
@@ -64,7 +76,15 @@ export default function FilterBlock() {
         >
           исполнителю
         </div>
-        {filterActive === "author" ? <FilterItem onClick={handleFilterClick} filterList={authors} /> : ""}
+        {filterActive === "author" ? (
+          <FilterItem
+            selectedFilters={selectedAuthors}
+            onClick={handleFilterClick}
+            filterList={authors}
+          />
+        ) : (
+          ""
+        )}
       </div>
       <div className={styles.wrapperFilters}>
         <div
@@ -85,7 +105,15 @@ export default function FilterBlock() {
         >
           году выпуска
         </div>
-        {filterActive === "year" ? <FilterItem onClick={handleFilterClick} filterList={years} /> : ""}
+        {filterActive === "year" ? (
+          <FilterItem
+            selectedFilters={selectedAuthors}
+            onClick={handleFilterClick}
+            filterList={years}
+          />
+        ) : (
+          ""
+        )}
       </div>
       <div className={styles.wrapperFilters}>
         <div
@@ -106,7 +134,15 @@ export default function FilterBlock() {
         >
           жанру
         </div>
-        {filterActive === "genre" ? <FilterItem onClick={handleFilterClick} filterList={genres} /> : ""}
+        {filterActive === "genre" ? (
+          <FilterItem
+          selectedFilters={selectedAuthors}
+            onClick={handleFilterClick}
+            filterList={genres}
+          />
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

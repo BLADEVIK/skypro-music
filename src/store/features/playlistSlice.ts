@@ -67,7 +67,6 @@ const playlistSlice = createSlice({
         searchValue?: string;
       }>
     ) => {
-      console.log(4);
       state.activeFilters = {
         author: action.payload.author || state.activeFilters.author,
         release_date: action.payload.release_date || null,
@@ -75,7 +74,7 @@ const playlistSlice = createSlice({
         searchValue:
           action.payload.searchValue || state.activeFilters.searchValue,
       };
-      state.filteredPlaylist = state.playlist.filter((track) => {
+      state.filteredPlaylist = state.playlistPage.filter((track) => {
         const isAuthors =
           state.activeFilters.author.length > 0
             ? state.activeFilters.author.includes(track.author)

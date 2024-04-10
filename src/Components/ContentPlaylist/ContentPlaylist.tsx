@@ -7,10 +7,10 @@ import { getTracks } from "../../api/tracks/tracks";
 import { trackType } from "../../types";
 import { useAppSelector } from "../../hooks";
 import { useDispatch } from "react-redux";
-import { setPlaylistPage } from "../../store/features/playlistSlice";
+import { setActiveFilter, setPlaylistPage } from "../../store/features/playlistSlice";
 
 export default function ContentPlaylist() {
-  const { currentTrack, playlistPage } = useAppSelector(
+  const { currentTrack, playlistPage,filteredPlaylist } = useAppSelector(
     (store) => store.playlist
   );
 
@@ -20,17 +20,18 @@ export default function ContentPlaylist() {
     getTracks().then((res) => {
       if (res.data) {
         dispatch(setPlaylistPage(res.data));
+        dispatch(setActiveFilter({author:[]}))
       }
     });
   }, []);
   return (
     <div className={classNames(styles.contentPlaylist, styles.playlist)}>
       {/* <div>{currentTrack?.name}</div> */}
-      {playlistPage?.map((item, index) => (
+      {filteredPlaylist.map((item, index) => (
         <PlayListItem
           key={index}
           item={item}
-          playlist={playlistPage}
+          playlist={filteredPlaylist}
           isCurrentTrack={item.id === currentTrack?.id}
         />
       ))}
