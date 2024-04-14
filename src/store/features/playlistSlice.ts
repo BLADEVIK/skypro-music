@@ -89,6 +89,15 @@ const playlistSlice = createSlice({
     setPlaylistPage: (state, action: PayloadAction<trackType[]>) => {
       state.playlistPage = action.payload;
     },
+    setClearFilter: (state) => {
+      state.filteredPlaylist = [];
+      state.activeFilters = {
+        author: [],
+        release_date: null,
+        genre: [],
+        searchValue: "",
+      };
+    },
   },
 });
 
@@ -100,5 +109,6 @@ export const {
   setIsPlaying,
   setPlaylistPage,
   setActiveFilter,
+  setClearFilter,
 } = playlistSlice.actions;
 export const playlistReducer = playlistSlice.reducer;

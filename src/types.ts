@@ -1,4 +1,4 @@
- export type trackType = {
+export type trackType = {
   id: number;
   name: string;
   author: string;
@@ -18,7 +18,17 @@ type userType = {
   last_name: string;
   email: string;
 };
- export type getTrackResponse = {
+export type getTrackResponse = {
   error: string | undefined;
   data: trackType[] | undefined;
+};
+type trackSectionType = {
+  id: number;
+  items: trackType[];
+  owner: string;
+  name: string;
+};
+export type getTrackSectionResponse = {
+  error: string | undefined;
+  data: trackSectionType | undefined;
 };
