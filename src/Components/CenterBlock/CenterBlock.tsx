@@ -5,9 +5,10 @@ import FilterBlock from "@components/FilterBlock/FilterBlock";
 import { trackType } from "../../types";
 import { useAppDispatch } from "../../hooks";
 import { setActiveFilter } from "../../store/features/playlistSlice";
-
-export default function CenterBlock() {
-  
+type centerBlockType = {
+  isFilter: boolean;
+};
+export default function CenterBlock({isFilter}:centerBlockType) {
   const dispatch = useAppDispatch();
   return (
     <div className={classNames(styles.mainCenterBlock, styles.centerBlock)}>
@@ -33,7 +34,7 @@ export default function CenterBlock() {
         />
       </div>
       <h2 className={styles.centerBlockH2}>Треки</h2>
-      <FilterBlock />
+      {isFilter && <FilterBlock />}
       <div
         className={classNames(
           styles.centerBlockContent,

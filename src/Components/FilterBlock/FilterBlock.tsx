@@ -28,15 +28,15 @@ export default function FilterBlock() {
         })
       );
     }
-    // if (filterName === "genres") {
-    //   dispatch(
-    //     setActiveFilter({
-    //       genre: selectedGenres.includes(itemName)
-    //         ? selectedGenres.filter((genre) => genre !== itemName)
-    //         : [...selectedGenres, itemName],
-    //     })
-    //   );
-    // }
+    if (filterName === "genres") {
+      dispatch(
+        setActiveFilter({
+          genre: selectedGenres.includes(itemName)
+            ? selectedGenres.filter((genre) => genre !== itemName)
+            : [...selectedGenres, itemName],
+        })
+      );
+    }
   }
   useEffect(() => {
     if (playlistPage.length > 0) {
@@ -81,6 +81,7 @@ export default function FilterBlock() {
             selectedFilters={selectedAuthors}
             onClick={handleFilterClick}
             filterList={authors}
+            filterName={"authors"}
           />
         ) : (
           ""
@@ -110,6 +111,7 @@ export default function FilterBlock() {
             selectedFilters={selectedAuthors}
             onClick={handleFilterClick}
             filterList={years}
+            filterName={"years"}
           />
         ) : (
           ""
@@ -136,9 +138,10 @@ export default function FilterBlock() {
         </div>
         {filterActive === "genre" ? (
           <FilterItem
-          selectedFilters={selectedAuthors}
+          selectedFilters={selectedGenres}
             onClick={handleFilterClick}
             filterList={genres}
+            filterName={"genres"}
           />
         ) : (
           ""
