@@ -10,23 +10,28 @@ export default function SignUp() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string[]>([]);
   const navigate = useRouter();
   function handleRegister(e: FormEvent) {
     e.preventDefault();
     if ([login, password, repeatPassword].includes("")) {
-      return setError("Заполните все поля");
+      return setError(["Заполните все поля"]);
     }
     if (password !== repeatPassword) {
-      return setError("Пароли не совпадают");
+      return setError(["Пароли не совпадают"]);
     }
-    getRegister({ email: login, password, username: login })
-      .then((res) => {
-        // console.log(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    getRegister({ email: login, password, username: login }).then((res) => {
+      setError([]);
+      if (res.error && res.error.email) {
+        setError((prev) => [...prev, ...res.error.email]);
+      }
+      if (res.error && res.error.password) {
+        setError((prev) => [...prev, ...res.error.password]);
+      }
+      if (res.error && res.error.username) {
+        setError((prev) => [...prev, ...res.error.username]);
+      }
+    });
     navigate.push("/signin");
   }
   return (
@@ -71,7 +76,11 @@ export default function SignUp() {
             <button type="submit" className={styles.modalBtnSignupEnt}>
               Зарегистрироваться
             </button>
-            <span style={{ color: "red" }}>{error}</span>
+            {error.map((el, index) => (
+              <span key={index} style={{ color: "red" }}>
+                {el}
+              </span>
+            ))}
           </form>
         </div>
       </div>

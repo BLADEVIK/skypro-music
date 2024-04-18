@@ -14,6 +14,7 @@ export function getRegister({
   password,
   username,
 }: getRegisterProps): Promise<authPromise> {
+  let isError = false;
   return fetch("https://skypro-music-api.skyeng.tech/user/signup/", {
     method: "POST",
     body: JSON.stringify({
@@ -26,20 +27,20 @@ export function getRegister({
     },
   })
     .then((res) => {
-      if (!res.ok) {
-        throw new Error("Данные не получены");
-      }
-
+      isError = res.status !== 200;
       return res.json();
     })
     .then((res) => {
+      if (isError) {
+        return {
+          error: res,
+          data: undefined,
+        };
+      }
       return {
         error: undefined,
         data: res,
       };
-    })
-    .catch((error: Error) => {
-      return { error: error.message, data: undefined };
     });
 }
 
@@ -48,6 +49,7 @@ export function getLogin({
   email,
   password,
 }: getLoginProps): Promise<authPromise> {
+  let isError = false;
   return fetch("https://skypro-music-api.skyeng.tech/user/login/", {
     method: "POST",
     body: JSON.stringify({
@@ -58,20 +60,20 @@ export function getLogin({
       "content-type": "application/json",
     },
   })
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error("Данные не получены");
-      }
-
-      return res.json();
-    })
-    .then((res) => {
+  .then((res) => {
+    isError = res.status !== 200;
+    return res.json();
+  })
+  .then((res) => {
+    if (isError) {
       return {
-        error: undefined,
-        data: res,
+        error: res,
+        data: undefined,
       };
-    })
-    .catch((error: Error) => {
-      return { error: error.message, data: undefined };
-    });
+    }
+    return {
+      error: undefined,
+      data: res,
+    };
+  });
 }

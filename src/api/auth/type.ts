@@ -1,6 +1,6 @@
 export type authPromise = {
   data: dataType | undefined;
-  error: string | undefined;
+  error: errorType | undefined;
 };
 type dataType = {
   id: number;
