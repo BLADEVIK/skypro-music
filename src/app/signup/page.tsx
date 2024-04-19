@@ -21,18 +21,21 @@ export default function SignUp() {
       return setError(["Пароли не совпадают"]);
     }
     getRegister({ email: login, password, username: login }).then((res) => {
+      console.log(res);
       setError([]);
       if (res.error && res.error.email) {
-        setError((prev) => [...prev, ...res.error.email]);
+        setError(['Введите правильный адрес электронной почты.']);
       }
       if (res.error && res.error.password) {
-        setError((prev) => [...prev, ...res.error.password]);
+        setError(["Неккоректный пароль"]);
       }
       if (res.error && res.error.username) {
-        setError((prev) => [...prev, ...res.error.username]);
+        setError(["Пользователь c таким именем уже существует"]);
+      }
+      if (res.error === undefined) {
+        navigate.push("/signin");
       }
     });
-    navigate.push("/signin");
   }
   return (
     <div className={styles.wrapper}>
@@ -77,11 +80,12 @@ export default function SignUp() {
               Зарегистрироваться
             </button>
             {error.map((el, index) => (
-              <span key={index} style={{ color: "red" }}>
+              <p key={index} style={{ color: "red" }}>
                 {el}
-              </span>
+              </p>
             ))}
           </form>
+          {}
         </div>
       </div>
     </div>

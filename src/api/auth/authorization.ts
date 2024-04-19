@@ -27,7 +27,7 @@ export function getRegister({
     },
   })
     .then((res) => {
-      isError = res.status !== 200;
+      isError = res.status !== 201;
       return res.json();
     })
     .then((res) => {

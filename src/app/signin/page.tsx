@@ -11,21 +11,24 @@ import { getLogin } from "../../api/auth/authorization";
 export default function SignIn() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string[]>([]);
   const navigate = useRouter();
   function handleLogin(e: FormEvent) {
     e.preventDefault();
     if ([login, password].includes("")) {
-      return setError("Заполните все поля");
+      return setError(["Заполните все поля"]);
     }
-    getLogin({ email: login, password })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    navigate.push("/tracks");
+    getLogin({ email: login, password }).then((res) => {
+      console.log(res);
+      setError([]);
+
+      if (res.data === undefined) {
+        setError(["Пользователь с таким email или паролем не найден"]);
+      }
+      if (res.error === undefined) {
+        navigate.push("/tracks");
+      }
+    });
   }
   return (
     <div className={styles.wrapper}>
@@ -68,7 +71,11 @@ export default function SignIn() {
             <Link href="/signup" className={styles.modalBtnSignup}>
               Зарегистрироваться
             </Link>
-            <span style={{ color: "red" }}>{error}</span>
+            {error.map((el, index) => (
+              <p key={index} style={{ color: "red" }}>
+                {el}
+              </p>
+            ))}
           </form>
         </div>
       </div>
