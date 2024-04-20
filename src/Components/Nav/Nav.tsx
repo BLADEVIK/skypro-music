@@ -13,13 +13,15 @@ export default function Nav() {
   return (
     <nav className={classNames(styles.mainNav, styles.nav)}>
       <div className={classNames(styles.navLogo, styles.logo)}>
-        <Image
-          alt="Логотип"
-          width={113}
-          height={17}
-          className={styles.logoImage}
-          src="/img/logo.png"
-        />
+        <Link href="/tracks">
+          <Image
+            alt="Логотип"
+            width={113}
+            height={17}
+            className={styles.logoImage}
+            src="/img/logo.png"
+          />
+        </Link>
       </div>
       <div
         onClick={NavBurger}
@@ -37,7 +39,7 @@ export default function Nav() {
                 Главное
               </Link>
             </li>
-            <li className={styles.menuItem}>Мой плейлист</li>
+            <Link href="/tracks/4"><li className={styles.menuItem}>Мой плейлист</li></Link>
             <li className={styles.menuItem}>
               <Link href="/signin">Войти</Link>
             </li>

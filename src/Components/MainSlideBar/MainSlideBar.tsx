@@ -8,14 +8,14 @@ type mainSideBarType = {
 export default function MainSlideBar({ isSideBar }: mainSideBarType) {
   return (
     <div className={classNames(styles.mainSidebar, styles.sidebar)}>
-      <div className={styles.sidebarPersonal}>
+      <Link href="/signin"><div className={styles.sidebarPersonal}>
         <p className={styles.sidebarPersonalName}>BL@DE</p>
         <div className={styles.sidebarIcon}>
           <svg>
             <use href="/img/icon/sprite.svg#logout"></use>
           </svg>
         </div>
-      </div>
+      </div></Link>
       {isSideBar && (
         <div className={styles.sidebarBlock}>
           <div className={styles.sidebarList}>

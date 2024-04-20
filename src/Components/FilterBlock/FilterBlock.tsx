@@ -45,7 +45,7 @@ export default function FilterBlock() {
     }
   }, [playlistPage]);
 
-  const years = ["По умолчанию", "По убыванию", "По возрастанию"];
+  // const years = ["По умолчанию", "По убыванию", "По возрастанию"];
 
   function activeChangeFilter(nameFilter: string) {
     if (filterActive === nameFilter) {
@@ -87,7 +87,7 @@ export default function FilterBlock() {
           ""
         )}
       </div>
-      <div className={styles.wrapperFilters}>
+      {/* <div className={styles.wrapperFilters}>
         <div
           onClick={() => activeChangeFilter("year")}
           className={`${
@@ -116,7 +116,7 @@ export default function FilterBlock() {
         ) : (
           ""
         )}
-      </div>
+      </div> */}
       <div className={styles.wrapperFilters}>
         <div
           onClick={() => activeChangeFilter("genre")}
