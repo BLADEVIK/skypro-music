@@ -1,11 +1,9 @@
 "use client";
-import Main from "@components/Main/Main";
 import styles from "../page.module.css";
 import { useAppSelector } from "../../../hooks";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import {
-  setActiveFilter,
   setClearFilter,
   setPlaylistPage,
 } from "../../../store/features/playlistSlice";

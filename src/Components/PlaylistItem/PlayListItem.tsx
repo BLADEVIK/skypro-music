@@ -4,6 +4,7 @@ import { trackType } from "../../types";
 import { formatTime } from "@lib/formatTime";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { setCurrentTrack } from "../../store/features/playlistSlice";
+import { addFavorite } from "../../api/likes/likes";
 
 type trackTypeProps = {
   item: trackType;
@@ -20,6 +21,14 @@ export default function PlayListItem({
   const dispatch = useAppDispatch();
   function handleClick() {
     dispatch(setCurrentTrack({ currentTrack: item, playlist }));
+  }
+  function handleLike(id:number){
+    addFavorite(id,"token").then((res)=>{
+      if(res.error){
+       return alert(res.error)
+      }
+      // TODO:актуализировать данные
+    })
   }
   return (
     <div onClick={handleClick} className={styles.playlistItem}>
@@ -51,7 +60,7 @@ export default function PlayListItem({
           <span className={styles.trackAlbumLink}>{item.album}</span>
         </div>
         <div className={styles.trackTime}>
-          <svg className={styles.trackTimeSvg}>
+          <svg onClick={()=>handleLike(item.id)} className={styles.trackTimeSvg}>
             <use href="/img/icon/sprite.svg#icon-like"></use>
           </svg>
           <span className={styles.trackTimeText}>

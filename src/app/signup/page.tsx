@@ -21,20 +21,18 @@ export default function SignUp() {
       return setError(["Пароли не совпадают"]);
     }
     getRegister({ email: login, password, username: login }).then((res) => {
-      console.log(res);
       setError([]);
       if (res.error && res.error.email) {
-        setError(['Введите правильный адрес электронной почты.']);
+        return setError(["Введите правильный адрес электронной почты."]);
       }
       if (res.error && res.error.password) {
-        setError(["Неккоректный пароль"]);
+        return setError(["Неккоректный пароль"]);
       }
       if (res.error && res.error.username) {
-        setError(["Пользователь c таким именем уже существует"]);
+        return setError(["Пользователь c таким именем уже существует"]);
       }
-      if (res.error === undefined) {
-        navigate.push("/signin");
-      }
+
+      navigate.push("/signin");
     });
   }
   return (

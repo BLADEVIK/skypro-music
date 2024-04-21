@@ -2,14 +2,16 @@ import Image from "next/image";
 import styles from "@components/MainSlideBar/MainSlideBar.module.css";
 import classNames from "classnames";
 import Link from "next/link";
+import { useAppSelector } from "../../hooks";
 type mainSideBarType = {
   isSideBar: boolean;
 };
 export default function MainSlideBar({ isSideBar }: mainSideBarType) {
+  const { user } = useAppSelector((store) => store.auth);
   return (
     <div className={classNames(styles.mainSidebar, styles.sidebar)}>
       <Link href="/signin"><div className={styles.sidebarPersonal}>
-        <p className={styles.sidebarPersonalName}>BL@DE</p>
+        <p className={styles.sidebarPersonalName}>{user}</p>
         <div className={styles.sidebarIcon}>
           <svg>
             <use href="/img/icon/sprite.svg#logout"></use>

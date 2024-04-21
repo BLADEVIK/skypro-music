@@ -7,11 +7,15 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
 import { getLogin } from "../../api/auth/authorization";
+import { getToken } from "../../api/token/token";
+import { useAppDispatch } from "../../hooks";
+import { setAuthState } from "../../store/features/authSlice";
 
 export default function SignIn() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string[]>([]);
+  const dispatch = useAppDispatch();
   const navigate = useRouter();
   function handleLogin(e: FormEvent) {
     e.preventDefault();
@@ -19,15 +23,27 @@ export default function SignIn() {
       return setError(["Заполните все поля"]);
     }
     getLogin({ email: login, password }).then((res) => {
-      console.log(res);
       setError([]);
 
-      if (res.data === undefined) {
-        setError(["Пользователь с таким email или паролем не найден"]);
+      if (res.error) {
+        return setError(["Пользователь с таким email или паролем не найден"]);
       }
-      if (res.error === undefined) {
-        navigate.push("/tracks");
-      }
+      getToken({ email: login, password }).then((response) => {
+        if (response.error || res.error) {
+          return setError(["Пользователь с таким email или паролем не найден"]);
+        }
+        if (res.data && response.data) {
+          dispatch(
+            setAuthState({
+              user: res.data.username,
+              userId: res.data.id,
+              access: response.data.access,
+              refresh: response.data.refresh,
+            })
+          );
+          navigate.push("/tracks");
+        }
+      });
     });
   }
   return (
