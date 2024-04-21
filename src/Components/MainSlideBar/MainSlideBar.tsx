@@ -3,15 +3,20 @@ import styles from "@components/MainSlideBar/MainSlideBar.module.css";
 import classNames from "classnames";
 import Link from "next/link";
 import { useAppSelector } from "../../hooks";
+import { useEffect, useState } from "react";
 type mainSideBarType = {
   isSideBar: boolean;
 };
 export default function MainSlideBar({ isSideBar }: mainSideBarType) {
+  const [safeUser,setSafeUser]=useState("")
   const { user } = useAppSelector((store) => store.auth);
+  useEffect(()=>{
+  setSafeUser(user)
+  },[])
   return (
     <div className={classNames(styles.mainSidebar, styles.sidebar)}>
       <Link href="/signin"><div className={styles.sidebarPersonal}>
-        <p className={styles.sidebarPersonalName}>{user}</p>
+        <p className={styles.sidebarPersonalName}>{safeUser}</p>
         <div className={styles.sidebarIcon}>
           <svg>
             <use href="/img/icon/sprite.svg#logout"></use>

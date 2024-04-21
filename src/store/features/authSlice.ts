@@ -22,15 +22,16 @@ function getDataLocalStorage(): AuthStateType | null {
 }
 
 const initialState: AuthStateType = {
-  access: getDataLocalStorage()?.access ?? "",
-  refresh: getDataLocalStorage()?.refresh ?? "",
-  userId: getDataLocalStorage()?.userId ?? null,
-  user: getDataLocalStorage()?.user ?? "",
+  access: "",
+  refresh: "",
+  userId: null,
+  user: "",
 };
-
+const initialStateOrLocalStorage: AuthStateType =
+  getDataLocalStorage() || initialState;
 const authSlice = createSlice({
   name: "auth",
-  initialState,
+  initialState : initialStateOrLocalStorage,
   reducers: {
     setAuthState: (state, action: PayloadAction<AuthStateType>) => {
       const { access, refresh, user, userId } = action.payload;
