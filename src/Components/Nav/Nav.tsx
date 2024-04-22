@@ -4,11 +4,15 @@ import Link from "next/link";
 import styles from "@components/Nav/Nav.module.css";
 import classNames from "classnames";
 import { useState } from "react";
+import { useAppSelector } from "../../hooks";
+import { getDataLocalStorageClear } from "../../store/features/authSlice";
 
 export default function Nav() {
   const [navActive, setNavActive] = useState(false);
+ 
+  const { userId } = useAppSelector((state) => state.auth);
   function NavBurger() {
-    setNavActive(!navActive);
+    setNavActive(!navActive); 
   }
   return (
     <nav className={classNames(styles.mainNav, styles.nav)}>
@@ -39,10 +43,22 @@ export default function Nav() {
                 Главное
               </Link>
             </li>
-            <Link href="/tracks/4"><li className={styles.menuItem}>Мой плейлист</li></Link>
-            <li className={styles.menuItem}>
-              <Link href="/signin">Войти</Link>
-            </li>
+            <Link href="/tracks/4">
+              <li className={styles.menuItem}>Мой плейлист</li>
+            </Link>
+            {userId ? (
+              <li className={styles.menuItem}>
+                <Link onClick={getDataLocalStorageClear} href="/signin">
+                  Выйти
+                </Link>
+              </li>
+            ) : (
+              <li className={styles.menuItem}>
+                <Link onClick={getDataLocalStorageClear} href="/signin">
+                  Войти
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       ) : (

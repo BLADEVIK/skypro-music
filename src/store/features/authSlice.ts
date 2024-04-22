@@ -5,7 +5,7 @@ type AuthStateType = {
   userId: number | null;
   user: string;
 };
-function getDataLocalStorage(): AuthStateType | null {
+export function getDataLocalStorage(): AuthStateType | null {
   try {
     const { access, refresh, user, userId } = JSON.parse(
       localStorage.getItem("auth") ?? ""
@@ -21,6 +21,11 @@ function getDataLocalStorage(): AuthStateType | null {
   }
 }
 
+export function getDataLocalStorageClear() {
+  if (localStorage.getItem("auth")) {
+    localStorage.removeItem("auth");
+  }
+}
 const initialState: AuthStateType = {
   access: "",
   refresh: "",
@@ -31,7 +36,7 @@ const initialStateOrLocalStorage: AuthStateType =
   getDataLocalStorage() || initialState;
 const authSlice = createSlice({
   name: "auth",
-  initialState : initialStateOrLocalStorage,
+  initialState: initialStateOrLocalStorage,
   reducers: {
     setAuthState: (state, action: PayloadAction<AuthStateType>) => {
       const { access, refresh, user, userId } = action.payload;

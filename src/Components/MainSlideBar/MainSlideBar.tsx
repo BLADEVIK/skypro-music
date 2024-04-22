@@ -4,25 +4,28 @@ import classNames from "classnames";
 import Link from "next/link";
 import { useAppSelector } from "../../hooks";
 import { useEffect, useState } from "react";
+import { getDataLocalStorageClear } from "../../store/features/authSlice";
 type mainSideBarType = {
   isSideBar: boolean;
 };
 export default function MainSlideBar({ isSideBar }: mainSideBarType) {
-  const [safeUser,setSafeUser]=useState("")
+  const [safeUser, setSafeUser] = useState("");
   const { user } = useAppSelector((store) => store.auth);
-  useEffect(()=>{
-  setSafeUser(user)
-  },[])
+  useEffect(() => {
+    setSafeUser(user);
+  }, []);
   return (
     <div className={classNames(styles.mainSidebar, styles.sidebar)}>
-      <Link href="/signin"><div className={styles.sidebarPersonal}>
+      <div className={styles.sidebarPersonal}>
         <p className={styles.sidebarPersonalName}>{safeUser}</p>
         <div className={styles.sidebarIcon}>
-          <svg>
-            <use href="/img/icon/sprite.svg#logout"></use>
-          </svg>
+          <Link href="/signin">
+            <svg onClick={getDataLocalStorageClear}>
+              <use href="/img/icon/sprite.svg#logout"></use>
+            </svg>
+          </Link>
         </div>
-      </div></Link>
+      </div>
       {isSideBar && (
         <div className={styles.sidebarBlock}>
           <div className={styles.sidebarList}>
