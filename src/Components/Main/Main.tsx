@@ -17,7 +17,6 @@ type mainType = {
   isSideBar?: boolean;
 };
 export default function Main({ isFilter = true, isSideBar = true }: mainType) {
-  const { currentTrack } = useAppSelector((store) => store.playlist);
   const dispatch = useDispatch();
   useEffect(() => {
     getTracks().then((res) => {
@@ -29,14 +28,14 @@ export default function Main({ isFilter = true, isSideBar = true }: mainType) {
   }, []);
   return (
     <>
-      <main className={styles.main}>
-        <Nav />
+     
+       
         <CenterBlock isFilter={isFilter} />
 
         <MainSlideBar isSideBar={isSideBar} />
-      </main>
-      {currentTrack ? <Bar /> : ""}
-      <footer> </footer>
+    
+      
+      
     </>
   );
 }

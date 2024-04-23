@@ -29,11 +29,10 @@ export default function PlaylistID({ params }: paramsIDType) {
   return (
     <>
       <main className={styles.main}>
-        <Nav />
+       
         <CenterBlock isFilter={false} />
         <MainSlideBar isSideBar={false} />
       </main>
-      {currentTrack ? <Bar /> : ""}
       <footer> </footer>
     </>
   );

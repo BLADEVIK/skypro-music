@@ -43,7 +43,7 @@ export default function Nav() {
                 Главное
               </Link>
             </li>
-            <Link href="/tracks/4">
+            <Link href="/tracks/favorite">
               <li className={styles.menuItem}>Мой плейлист</li>
             </Link>
             {userId ? (

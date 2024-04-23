@@ -4,7 +4,7 @@ import { trackType } from "../../types";
 import { formatTime } from "@lib/formatTime";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { setCurrentTrack } from "../../store/features/playlistSlice";
-import { addFavorite } from "../../api/likes/likes";
+import { addFavorite, deleteFavorite } from "../../api/likes/likes";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { RootState } from "../../store/store";
@@ -25,7 +25,9 @@ export default function PlayListItem({
   const { isPlaying } = useAppSelector((state: RootState) => state.playlist);
   const auth = useAppSelector((state: RootState) => state.auth);
   const [isLike, setIsLike] = useState(false);
-  const likeUser = item.stared_user.some((el) => el.id === auth.userId);
+  const likeUser = item.stared_user
+    ? item.stared_user.some((el) => el.id === auth.userId)
+    : true;
   useEffect(() => {
     setIsLike(likeUser);
   }, []);
@@ -41,7 +43,7 @@ export default function PlayListItem({
       return;
     }
     if (isLikeTrack) {
-      addFavorite(id, auth.access).then((res) => {
+      deleteFavorite(id, auth.access).then((res) => {
         if (res.error === "401") {
           refreshToken(auth.refresh).then((resp) => {
             dispatch(setAuthState({ ...auth, access: resp.access }));
@@ -49,10 +51,10 @@ export default function PlayListItem({
             return;
           });
         }
-        setIsLike(true);
-        // return
+        setIsLike(false);
+        return;
       });
-      return;
+      // return;
     }
     addFavorite(id, auth.access).then((res) => {
       if (res.error === "401") {
