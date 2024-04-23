@@ -5,6 +5,8 @@ import { formatTime } from "@lib/formatTime";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { setCurrentTrack } from "../../store/features/playlistSlice";
 import { addFavorite } from "../../api/likes/likes";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type trackTypeProps = {
   item: trackType;
@@ -18,14 +20,25 @@ export default function PlayListItem({
   isCurrentTrack,
 }: trackTypeProps) {
   const { isPlaying } = useAppSelector((state) => state.playlist);
+  const { userId } = useAppSelector((state) => state.auth);
+  const [isLike, setIsLike] = useState(false);
   const dispatch = useAppDispatch();
+  const navigate = useRouter();
   function handleClick() {
     dispatch(setCurrentTrack({ currentTrack: item, playlist }));
   }
-  function handleLike(id:number){
+  function handleLike(id: number) {
+    if(userId){
+      setIsLike(!isLike);
+    }
+    else{
+      alert("Авторизуйтесь пожалуйста")
+      navigate.push("/signin");
+    }
+   
     addFavorite(id,"token").then((res)=>{
       if(res.error){
-       return alert(res.error)
+       return console.log(res.error)
       }
       // TODO:актуализировать данные
     })
@@ -60,8 +73,15 @@ export default function PlayListItem({
           <span className={styles.trackAlbumLink}>{item.album}</span>
         </div>
         <div className={styles.trackTime}>
-          <svg onClick={()=>handleLike(item.id)} className={styles.trackTimeSvg}>
-            <use href="/img/icon/sprite.svg#icon-like"></use>
+          <svg
+            onClick={() => handleLike(item.id)}
+            className={styles.trackTimeSvg}
+          >
+            {!isLike ? (
+              <use href="/img/icon/sprite.svg#icon-like"></use>
+            ) : (
+              <use href="/img/icon/sprite.svg#icon-likePaint"></use>
+            )}
           </svg>
           <span className={styles.trackTimeText}>
             {formatTime(item.duration_in_seconds)}
