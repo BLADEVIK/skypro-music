@@ -54,10 +54,10 @@ export async function addFavorite(
   )
     .then((response) => {
       if (response.status === 400) {
-        throw new Error("Ошибка добавления трека");
+        throw new Error("400");
       }
       if (response.status === 401) {
-        throw new Error("Ошибка получения токена");
+        throw new Error("401");
       }
       return response.json();
     })
@@ -68,24 +68,34 @@ export async function addFavorite(
       return { error: error.message };
     });
 }
+
 // Удаление трека из списка избранных
-export async function deleteFavorite(id: string, token: string) {
+export async function deleteFavorite(
+  id: number,
+  token: string
+): Promise<likesResType> {
   return fetch(
     `https://skypro-music-api.skyeng.tech/catalog/track/${id}/favorite/`,
     {
       method: "DELETE",
       headers: {
-        "content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     }
-  ).then((response) => {
-    if (response.status === 400) {
-      throw new Error("Ошибка удаления трека");
-    }
-    if (response.status === 401) {
-      throw new Error("Ошибка получения токена");
-    }
-    return response.json();
-  });
+  )
+    .then((response) => {
+      if (response.status === 400) {
+        throw new Error("400");
+      }
+      if (response.status === 401) {
+        throw new Error("401");
+      }
+      return response.json();
+    })
+    .then(() => {
+      return { error: undefined };
+    })
+    .catch((error) => {
+      return { error: error.message };
+    });
 }

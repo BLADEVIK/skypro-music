@@ -5,8 +5,11 @@ import { formatTime } from "@lib/formatTime";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { setCurrentTrack } from "../../store/features/playlistSlice";
 import { addFavorite } from "../../api/likes/likes";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { RootState } from "../../store/store";
+import { refreshToken } from "../../api/token/token";
+import { setAuthState } from "../../store/features/authSlice";
 
 type trackTypeProps = {
   item: trackType;
@@ -19,29 +22,48 @@ export default function PlayListItem({
   playlist,
   isCurrentTrack,
 }: trackTypeProps) {
-  const { isPlaying } = useAppSelector((state) => state.playlist);
-  const { userId } = useAppSelector((state) => state.auth);
+  const { isPlaying } = useAppSelector((state: RootState) => state.playlist);
+  const auth = useAppSelector((state: RootState) => state.auth);
   const [isLike, setIsLike] = useState(false);
+  const likeUser = item.stared_user.some((el) => el.id === auth.userId);
+  useEffect(() => {
+    setIsLike(likeUser);
+  }, []);
   const dispatch = useAppDispatch();
   const navigate = useRouter();
   function handleClick() {
     dispatch(setCurrentTrack({ currentTrack: item, playlist }));
   }
-  function handleLike(id: number) {
-    if(userId){
-      setIsLike(!isLike);
-    }
-    else{
-      alert("Авторизуйтесь пожалуйста")
+  function handleLike(id: number, isLikeTrack: boolean) {
+    if (!auth.userId) {
+      alert("Авторизуйтесь пожалуйста");
       navigate.push("/signin");
+      return;
     }
-   
-    addFavorite(id,"token").then((res)=>{
-      if(res.error){
-       return console.log(res.error)
+    if (isLikeTrack) {
+      addFavorite(id, auth.access).then((res) => {
+        if (res.error === "401") {
+          refreshToken(auth.refresh).then((resp) => {
+            dispatch(setAuthState({ ...auth, access: resp.access }));
+            addFavorite(id, resp.access);
+            return;
+          });
+        }
+        setIsLike(true);
+        // return
+      });
+      return;
+    }
+    addFavorite(id, auth.access).then((res) => {
+      if (res.error === "401") {
+        refreshToken(auth.refresh).then((resp) => {
+          dispatch(setAuthState({ ...auth, access: resp.access }));
+          addFavorite(id, resp.access);
+          return;
+        });
       }
-      // TODO:актуализировать данные
-    })
+      setIsLike(true);
+    });
   }
   return (
     <div onClick={handleClick} className={styles.playlistItem}>
@@ -74,7 +96,7 @@ export default function PlayListItem({
         </div>
         <div className={styles.trackTime}>
           <svg
-            onClick={() => handleLike(item.id)}
+            onClick={() => handleLike(item.id, isLike)}
             className={styles.trackTimeSvg}
           >
             {!isLike ? (

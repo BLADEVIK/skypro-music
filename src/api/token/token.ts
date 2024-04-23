@@ -40,8 +40,11 @@ export function getToken({
       return { data: undefined, error: error.message };
     });
 }
+type refreshResp = {
+  access: string;
+};
 // Обновление токена
-export async function refreshToken(refresh: string) {
+export async function refreshToken(refresh: string): Promise<refreshResp> {
   return fetch("https://skypro-music-api.skyeng.tech/user/token/refresh/", {
     method: "POST",
     body: JSON.stringify({
