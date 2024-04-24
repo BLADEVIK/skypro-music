@@ -36,7 +36,12 @@ export default function PlayListItem({
   function handleClick() {
     dispatch(setCurrentTrack({ currentTrack: item, playlist }));
   }
-  function handleLike(id: number, isLikeTrack: boolean) {
+  function handleLike(
+    id: number,
+    isLikeTrack: boolean,
+    event: React.MouseEvent<SVGSVGElement, MouseEvent>
+  ) {
+    event.stopPropagation();
     if (!auth.userId) {
       alert("Авторизуйтесь пожалуйста");
       navigate.push("/signin");
@@ -98,7 +103,7 @@ export default function PlayListItem({
         </div>
         <div className={styles.trackTime}>
           <svg
-            onClick={() => handleLike(item.id, isLike)}
+            onClick={(event) => handleLike(item.id, isLike, event)}
             className={styles.trackTimeSvg}
           >
             {!isLike ? (
