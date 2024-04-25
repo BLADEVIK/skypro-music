@@ -19,9 +19,9 @@ export default function Bar() {
     (store) => store.playlist
   );
   const dispatch = useAppDispatch();
-  if (!currentTrack) {
-    return;
-  }
+  // if (!currentTrack) {
+  //   return;
+  // }
   const [currentTime, setCurrentTime] = useState(0);
 
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -46,6 +46,9 @@ export default function Bar() {
       dispatch(setNextTrack());
     }
   }, [currentTime]);
+  if (!currentTrack) {
+    return;
+  }
   function changeProgressBar(e: React.ChangeEvent<HTMLInputElement>) {
     if (audioRef.current) {
       audioRef.current.currentTime = Number(e.target.value);

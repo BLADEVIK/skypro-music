@@ -2,18 +2,28 @@ import Image from "next/image";
 import styles from "@components/MainSlideBar/MainSlideBar.module.css";
 import classNames from "classnames";
 import Link from "next/link";
+import { useAppSelector } from "../../hooks";
+import { useEffect, useState } from "react";
+import { getDataLocalStorageClear } from "../../store/features/authSlice";
 type mainSideBarType = {
   isSideBar: boolean;
 };
 export default function MainSlideBar({ isSideBar }: mainSideBarType) {
+  const [safeUser, setSafeUser] = useState("");
+  const { user } = useAppSelector((store) => store.auth);
+  useEffect(() => {
+    setSafeUser(user);
+  }, []);
   return (
     <div className={classNames(styles.mainSidebar, styles.sidebar)}>
       <div className={styles.sidebarPersonal}>
-        <p className={styles.sidebarPersonalName}>BL@DE</p>
+        <p className={styles.sidebarPersonalName}>{safeUser}</p>
         <div className={styles.sidebarIcon}>
-          <svg>
-            <use href="/img/icon/sprite.svg#logout"></use>
-          </svg>
+          <Link href="/signin">
+            <svg onClick={getDataLocalStorageClear}>
+              <use href="/img/icon/sprite.svg#logout"></use>
+            </svg>
+          </Link>
         </div>
       </div>
       {isSideBar && (

@@ -4,22 +4,28 @@ import Link from "next/link";
 import styles from "@components/Nav/Nav.module.css";
 import classNames from "classnames";
 import { useState } from "react";
+import { useAppSelector } from "../../hooks";
+import { getDataLocalStorageClear } from "../../store/features/authSlice";
 
 export default function Nav() {
   const [navActive, setNavActive] = useState(false);
+
+  const { userId } = useAppSelector((state) => state.auth);
   function NavBurger() {
     setNavActive(!navActive);
   }
   return (
     <nav className={classNames(styles.mainNav, styles.nav)}>
       <div className={classNames(styles.navLogo, styles.logo)}>
-        <Image
-          alt="Логотип"
-          width={113}
-          height={17}
-          className={styles.logoImage}
-          src="/img/logo.png"
-        />
+        <Link href="/tracks">
+          <Image
+            alt="Логотип"
+            width={113}
+            height={17}
+            className={styles.logoImage}
+            src="/img/logo.png"
+          />
+        </Link>
       </div>
       <div
         onClick={NavBurger}
@@ -37,9 +43,13 @@ export default function Nav() {
                 Главное
               </Link>
             </li>
-            <li className={styles.menuItem}>Мой плейлист</li>
+            <Link href="/tracks/favorite">
+              <li className={styles.menuItem}>Мой плейлист</li>
+            </Link>
             <li className={styles.menuItem}>
-              <Link href="/signin">Войти</Link>
+              <Link onClick={getDataLocalStorageClear} href="/signin">
+                {userId ? "Выйти" : "Войти"}
+              </Link>
             </li>
           </ul>
         </div>

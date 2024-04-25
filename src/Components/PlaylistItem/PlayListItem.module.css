@@ -169,6 +169,7 @@
   margin-right: 17px;
   fill: transparent;
   stroke: #696969;
+  cursor: pointer;
 }
 
 .trackTimeText {

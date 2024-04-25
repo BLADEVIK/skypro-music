@@ -13,6 +13,7 @@ export const makeStore = () => {
   return configureStore({
     // Мы передаем объект, в котором свойство reducer содержит корневой редюсер, объединяющий все редюсеры нашего приложения.
     reducer: combineReducers({
+      auth: authReducer,
       playlist: playlistReducer,
     }),
   });
