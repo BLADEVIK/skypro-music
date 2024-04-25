@@ -86,7 +86,7 @@ const playlistSlice = createSlice({
         return isAuthors && isGenres;
       });
       state.filteredPlaylist = state.filteredPlaylist.filter(
-        (item: any) =>
+        (item: trackType) =>
           item.name
             .toLowerCase()
             .includes(state.activeFilters.searchValue.toLowerCase()) ||

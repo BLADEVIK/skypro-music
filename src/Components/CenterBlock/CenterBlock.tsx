@@ -2,7 +2,6 @@ import ContentPlaylist from "@components/ContentPlaylist/ContentPlaylist";
 import classNames from "classnames";
 import styles from "@components/CenterBlock/CenterBlock.module.css";
 import FilterBlock from "@components/FilterBlock/FilterBlock";
-import { trackType } from "../../types";
 import { useAppDispatch } from "../../hooks";
 import { setActiveFilter } from "../../store/features/playlistSlice";
 type centerBlockType = {

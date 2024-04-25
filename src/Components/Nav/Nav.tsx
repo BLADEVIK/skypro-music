@@ -9,10 +9,10 @@ import { getDataLocalStorageClear } from "../../store/features/authSlice";
 
 export default function Nav() {
   const [navActive, setNavActive] = useState(false);
- 
+
   const { userId } = useAppSelector((state) => state.auth);
   function NavBurger() {
-    setNavActive(!navActive); 
+    setNavActive(!navActive);
   }
   return (
     <nav className={classNames(styles.mainNav, styles.nav)}>
@@ -46,19 +46,11 @@ export default function Nav() {
             <Link href="/tracks/favorite">
               <li className={styles.menuItem}>Мой плейлист</li>
             </Link>
-            {userId ? (
-              <li className={styles.menuItem}>
-                <Link onClick={getDataLocalStorageClear} href="/signin">
-                  Выйти
-                </Link>
-              </li>
-            ) : (
-              <li className={styles.menuItem}>
-                <Link onClick={getDataLocalStorageClear} href="/signin">
-                  Войти
-                </Link>
-              </li>
-            )}
+            <li className={styles.menuItem}>
+              <Link onClick={getDataLocalStorageClear} href="/signin">
+                {userId ? "Выйти" : "Войти"}
+              </Link>
+            </li>
           </ul>
         </div>
       ) : (

@@ -1,10 +1,6 @@
 "use client";
-import Bar from "@components/Bar/Bar";
 import CenterBlock from "@components/CenterBlock/CenterBlock";
 import MainSlideBar from "@components/MainSlideBar/MainSlideBar";
-import Nav from "@components/Nav/Nav";
-import styles from "@components/Main/Main.module.css";
-import { useAppSelector } from "../../hooks";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getTracks } from "../../api/tracks/tracks";
@@ -28,14 +24,8 @@ export default function Main({ isFilter = true, isSideBar = true }: mainType) {
   }, []);
   return (
     <>
-     
-       
-        <CenterBlock isFilter={isFilter} />
-
-        <MainSlideBar isSideBar={isSideBar} />
-    
-      
-      
+      <CenterBlock isFilter={isFilter} />
+      <MainSlideBar isSideBar={isSideBar} />
     </>
   );
 }
