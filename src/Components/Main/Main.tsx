@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getTracks } from "../../api/tracks/tracks";
 import {
-  setActiveFilter,
+  setClearFilter,
   setPlaylistPage,
 } from "../../store/features/playlistSlice";
 type mainType = {
@@ -18,7 +18,7 @@ export default function Main({ isFilter = true, isSideBar = true }: mainType) {
     getTracks().then((res) => {
       if (res.data) {
         dispatch(setPlaylistPage(res.data));
-        dispatch(setActiveFilter({ author: [] }));
+        dispatch(setClearFilter());
       }
     });
   }, []);
