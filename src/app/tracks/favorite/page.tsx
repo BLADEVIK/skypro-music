@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { getLikedFavorite } from "../../../api/likes/likes";
 import { useAppSelector } from "../../../hooks";
 import {
-  setActiveFilter,
+  setClearFilter,
   setPlaylistPage,
 } from "../../../store/features/playlistSlice";
 import CenterBlock from "@components/CenterBlock/CenterBlock";
@@ -17,7 +17,7 @@ export default function PlaylistFavorite() {
     getLikedFavorite(access).then((res) => {
       if (res.data) {
         dispatch(setPlaylistPage(res.data));
-        dispatch(setActiveFilter({ author: [] }));
+        dispatch(setClearFilter());
       }
       if (res.error) {
         alert(res.error);

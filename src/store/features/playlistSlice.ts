@@ -11,6 +11,7 @@ export type PlaylistStateType = {
   filteredPlaylist: trackType[];
   activeFilters: activeFilters;
   playlistPage: trackType[];
+  isActiveFilter: boolean;
 };
 type activeFilters = {
   author: Array<string>;
@@ -36,6 +37,7 @@ const initialState: PlaylistStateType = {
     searchValue: "",
   },
   playlistPage: [],
+  isActiveFilter: false,
 };
 
 const playlistSlice = createSlice({
@@ -94,11 +96,13 @@ const playlistSlice = createSlice({
             .toLowerCase()
             .includes(state.activeFilters.searchValue.toLowerCase())
       );
+      state.isActiveFilter = true;
     },
     setPlaylistPage: (state, action: PayloadAction<trackType[]>) => {
       state.playlistPage = action.payload;
     },
     setClearFilter: (state) => {
+      state.isActiveFilter = false;
       state.filteredPlaylist = [];
       state.activeFilters = {
         author: [],
