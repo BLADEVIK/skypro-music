@@ -95,16 +95,7 @@ const playlistSlice = createSlice({
           : true;
         return isAuthors && isGenres && isSearch;
       });
-      // state.filteredPlaylist = state.filteredPlaylist.filter(
-      //   (item: trackType) =>
-      //     item.name
-      //       .toLowerCase()
-      //       .includes(state.activeFilters.searchValue.toLowerCase()) ||
-      //     item.author
-      //       .toLowerCase()
-      //       .includes(state.activeFilters.searchValue.toLowerCase())
-      // );
-      // state.isActiveFilter = true;
+      state.isActiveFilter = true;
     },
     setPlaylistPage: (state, action: PayloadAction<trackType[]>) => {
       state.playlistPage = action.payload;

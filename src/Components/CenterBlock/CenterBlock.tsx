@@ -6,8 +6,9 @@ import { useAppDispatch } from "../../hooks";
 import { setActiveFilter } from "../../store/features/playlistSlice";
 type centerBlockType = {
   isFilter: boolean;
+  title: string;
 };
-export default function CenterBlock({isFilter}:centerBlockType) {
+export default function CenterBlock({ isFilter,title }: centerBlockType) {
   const dispatch = useAppDispatch();
   return (
     <div className={classNames(styles.mainCenterBlock, styles.centerBlock)}>
@@ -32,7 +33,9 @@ export default function CenterBlock({isFilter}:centerBlockType) {
           }
         />
       </div>
-      <h2 className={styles.centerBlockH2}>{isFilter ?  "Треки": "Избранное"}</h2>
+      <h2 className={styles.centerBlockH2}>
+        {title}
+      </h2>
       {isFilter && <FilterBlock />}
       <div
         className={classNames(
