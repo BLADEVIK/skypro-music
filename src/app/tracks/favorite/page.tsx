@@ -26,7 +26,7 @@ export default function PlaylistFavorite() {
   }, []);
   return (
     <>
-      <CenterBlock isFilter={false} />
+      <CenterBlock title="Избранное" isFilter={false} />
       <MainSlideBar isSideBar={false} />
     </>
   );

@@ -2,7 +2,7 @@
 import styles from "../page.module.css";
 import { useAppSelector } from "../../../hooks";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import {
   setClearFilter,
   setPlaylistPage,
@@ -14,9 +14,19 @@ type paramsIDType = {
   params: { id: string };
 };
 export default function PlaylistID({ params }: paramsIDType) {
+  const [title,setTitle]=useState("")
   const dispatch = useDispatch();
   useEffect(() => {
     getTracksId(params.id).then((res) => {
+      if(params.id==="1"){
+        setTitle("Плейлист дня")
+      }
+      if(params.id==="2"){
+        setTitle("100 танцевальных хитов")
+      }
+      if(params.id==="3"){
+        setTitle("Инди-заряд")
+      }
       if (res.data) {
         dispatch(setClearFilter());
         dispatch(setPlaylistPage(res.data.items));
@@ -27,7 +37,7 @@ export default function PlaylistID({ params }: paramsIDType) {
     <>
       <main className={styles.main}>
        
-        <CenterBlock isFilter={false} />
+        <CenterBlock title={title} isFilter={false} />
         <MainSlideBar isSideBar={false} />
       </main>
       <footer> </footer>

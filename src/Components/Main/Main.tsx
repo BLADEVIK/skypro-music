@@ -24,7 +24,7 @@ export default function Main({ isFilter = true, isSideBar = true }: mainType) {
   }, []);
   return (
     <>
-      <CenterBlock isFilter={isFilter} />
+      <CenterBlock title="Треки" isFilter={isFilter} />
       <MainSlideBar isSideBar={isSideBar} />
     </>
   );
