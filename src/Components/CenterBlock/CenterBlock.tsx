@@ -32,7 +32,7 @@ export default function CenterBlock({isFilter}:centerBlockType) {
           }
         />
       </div>
-      <h2 className={styles.centerBlockH2}>Треки</h2>
+      <h2 className={styles.centerBlockH2}>{isFilter ?  "Треки": "Избранное"}</h2>
       {isFilter && <FilterBlock />}
       <div
         className={classNames(

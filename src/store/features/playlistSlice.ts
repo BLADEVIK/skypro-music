@@ -85,18 +85,26 @@ const playlistSlice = createSlice({
           state.activeFilters.genre.length > 0
             ? state.activeFilters.genre.includes(track.genre)
             : true;
-        return isAuthors && isGenres;
+        const isSearch = state.activeFilters.searchValue.length
+          ? track.name
+              .toLowerCase()
+              .includes(state.activeFilters.searchValue.toLowerCase()) ||
+            track.author
+              .toLowerCase()
+              .includes(state.activeFilters.searchValue.toLowerCase())
+          : true;
+        return isAuthors && isGenres && isSearch;
       });
-      state.filteredPlaylist = state.filteredPlaylist.filter(
-        (item: trackType) =>
-          item.name
-            .toLowerCase()
-            .includes(state.activeFilters.searchValue.toLowerCase()) ||
-          item.author
-            .toLowerCase()
-            .includes(state.activeFilters.searchValue.toLowerCase())
-      );
-      state.isActiveFilter = true;
+      // state.filteredPlaylist = state.filteredPlaylist.filter(
+      //   (item: trackType) =>
+      //     item.name
+      //       .toLowerCase()
+      //       .includes(state.activeFilters.searchValue.toLowerCase()) ||
+      //     item.author
+      //       .toLowerCase()
+      //       .includes(state.activeFilters.searchValue.toLowerCase())
+      // );
+      // state.isActiveFilter = true;
     },
     setPlaylistPage: (state, action: PayloadAction<trackType[]>) => {
       state.playlistPage = action.payload;
