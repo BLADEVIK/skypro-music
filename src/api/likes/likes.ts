@@ -1,5 +1,4 @@
 import { getTrackResponse } from "../../types";
-
 // Получение списка избранных треков
 export async function getLikedFavorite(
   userToken: string
