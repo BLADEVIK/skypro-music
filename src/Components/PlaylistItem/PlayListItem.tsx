@@ -1,4 +1,4 @@
-import styles from "@components/PlayListItem/PlayListItem.module.css";
+import styles from "@components/PlaylistItem/PlayListItem.module.css";
 import classNames from "classnames";
 import { trackType } from "../../types";
 import { formatTime } from "@lib/formatTime";
