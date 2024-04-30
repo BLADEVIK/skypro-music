@@ -43,7 +43,6 @@ export function getRegister({
       };
     });
 }
-
 // Авторизация нового пользователя
 export function getLogin({
   email,
